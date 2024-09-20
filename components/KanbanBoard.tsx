@@ -55,7 +55,10 @@ const DraggableTask = ({ task }: { task: Task }) => {
         {task.description}
       </p>
       <div className="flex justify-between items-center text-xs">
-        <Badge variant="secondary" className={priorityColor}>
+        <Badge
+          variant="secondary"
+          className={priorityColors[task.priority as Priority]}
+        >
           {task.priority}
         </Badge>
         {task.dueDate && (
