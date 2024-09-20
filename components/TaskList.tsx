@@ -30,14 +30,14 @@ interface Task {
   dueDate: string;
 }
 
-type SortBy = "dueDate" | "priority" | "status";
+type SortKey = "dueDate" | "priority" | "status";
 
 export function TaskList() {
   const { deleteTask, fetchTasks } = useTasks();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const [sortBy, setSortBy] = useState<SortBy>("dueDate");
+  const [sortBy, setSortBy] = useState<SortKey>("dueDate");
   const [filterStatus, setFilterStatus] = useState("all");
   const [loading, setLoading] = useState(true);
 
@@ -58,7 +58,7 @@ export function TaskList() {
       if (sortBy === "dueDate") {
         return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
       }
-      return a[sortBy]?.localeCompare(b[sortBy]);
+      return a[sortBy].localeCompare(b[sortBy]);
     });
 
   const handleCreateTask = () => {
@@ -91,9 +91,9 @@ export function TaskList() {
         <div className="flex flex-wrap gap-2">
           <Select
             value={sortBy}
-            onValueChange={(value) => setSortBy(value as SortBy)}
+            onValueChange={(value: SortKey) => setSortBy(value)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -103,7 +103,7 @@ export function TaskList() {
             </SelectContent>
           </Select>
           <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger>
+            <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>
@@ -131,14 +131,14 @@ export function TaskList() {
                 <TableHead>Status</TableHead>
                 <TableHead>Priority</TableHead>
                 <TableHead className="hidden sm:table-cell">Due Date</TableHead>
-                <TableHead className="hidden sm:table-cell">Actions</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {sortedAndFilteredTasks.map((task) => (
                 <TableRow key={task._id}>
                   <TableCell>{task.title}</TableCell>
-                  <TableCell className="max-w-[200px] break-words md:max-w-[300px] ">
+                  <TableCell className="max-w-[200px] break-words md:max-w-[300px]">
                     {task.description}
                   </TableCell>
                   <TableCell>{task.status}</TableCell>
@@ -146,26 +146,8 @@ export function TaskList() {
                   <TableCell className="hidden sm:table-cell">
                     {new Date(task.dueDate).toLocaleDateString()}
                   </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEditTask(task)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDeleteTask(task._id)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </TableCell>
-                  <TableCell className="sm:hidden">
-                    <div className="mt-2 flex flex-col gap-2">
+                  <TableCell>
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <Button
                         variant="outline"
                         size="sm"
