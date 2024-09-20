@@ -58,9 +58,7 @@ export function TaskList() {
       if (sortBy === "dueDate") {
         return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
       }
-      return (
-        a[sortBy as keyof Task]?.localeCompare(b[sortBy as keyof Task]) || 0
-      );
+      return a[sortBy]?.localeCompare(b[sortBy]);
     });
 
   const handleCreateTask = () => {
@@ -91,7 +89,10 @@ export function TaskList() {
       <div className="flex flex-col sm:flex-row justify-between mb-4 gap-4">
         <Button onClick={handleCreateTask}>Add New Task</Button>
         <div className="flex flex-wrap gap-2">
-          <Select value={sortBy} onValueChange={setSortBy}>
+          <Select
+            value={sortBy}
+            onValueChange={(value) => setSortBy(value as SortBy)}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
@@ -163,7 +164,6 @@ export function TaskList() {
                       </Button>
                     </div>
                   </TableCell>
-
                   <TableCell className="sm:hidden">
                     <div className="mt-2 flex flex-col gap-2">
                       <Button
