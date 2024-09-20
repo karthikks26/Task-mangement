@@ -21,7 +21,7 @@ interface Task {
   title: string;
   description: string;
   status: string;
-  priority: Priority; // Ensure priority is typed as Priority
+  priority: string;
   dueDate: string | null;
 }
 
@@ -38,7 +38,8 @@ const DraggableTask = ({ task }: { task: Task }) => {
     id: task._id,
   });
 
-  const priorityColor = priorityColors[task.priority as Priority];
+  const priorityColor =
+    priorityColors[task.priority as Priority] || "bg-gray-100 text-gray-800";
 
   return (
     <div
