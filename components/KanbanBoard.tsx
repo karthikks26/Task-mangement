@@ -21,7 +21,7 @@ interface Task {
   title: string;
   description: string;
   status: string;
-  priority: Priority;
+  priority: Priority; // Ensure priority is typed as Priority
   dueDate: string | null;
 }
 
@@ -38,8 +38,7 @@ const DraggableTask = ({ task }: { task: Task }) => {
     id: task._id,
   });
 
-  const priorityColor =
-    priorityColors[task.priority as Priority] || "bg-gray-100 text-gray-800";
+  const priorityColor = priorityColors[task.priority as Priority];
 
   return (
     <div
@@ -55,10 +54,7 @@ const DraggableTask = ({ task }: { task: Task }) => {
         {task.description}
       </p>
       <div className="flex justify-between items-center text-xs">
-        <Badge
-          variant="secondary"
-          className={priorityColors[task.priority as Priority]}
-        >
+        <Badge variant="secondary" className={priorityColor}>
           {task.priority}
         </Badge>
         {task.dueDate && (
