@@ -27,7 +27,7 @@ interface Task {
 
 const statuses = ["To Do", "In Progress", "Completed"];
 
-const priorityColors: { [K in Priority]: string } = {
+const priorityColors: { [key in Priority]: string } = {
   High: "bg-red-100 text-red-800",
   Medium: "bg-yellow-100 text-yellow-800",
   Low: "bg-green-100 text-green-800",
@@ -76,9 +76,7 @@ const DroppableColumn = ({
   status: string;
   tasks: Task[];
 }) => {
-  const { setNodeRef } = useDroppable({
-    id: status,
-  });
+  const { setNodeRef } = useDroppable({ id: status });
 
   return (
     <div ref={setNodeRef} className="w-full sm:w-1/2 lg:w-1/3 p-2">
