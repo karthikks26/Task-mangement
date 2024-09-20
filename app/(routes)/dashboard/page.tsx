@@ -6,9 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/providers/AuthProvider";
 import { Loader2 } from "lucide-react";
 
+type Task = {
+  id: number;
+  status: string;
+};
+
 export default function DashboardOverview() {
   const router = useRouter();
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,8 +26,7 @@ export default function DashboardOverview() {
       if (!response.ok) {
         throw new Error("Failed to fetch tasks");
       }
-      const tasksData = await response.json();
-      console.log(tasksData);
+      const tasksData: Task[] = await response.json();
       setTasks(tasksData);
     } catch (error) {
       console.error("Error fetching tasks:", error);
