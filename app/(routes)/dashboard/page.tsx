@@ -25,8 +25,8 @@ export default function DashboardOverview() {
       if (!response.ok) {
         throw new Error("Failed to fetch tasks");
       }
-      const tasksData: Task[] = await response.json();
-      setTasks(tasksData);
+      const tasksData = await response.json();
+      setTasks(tasksData as Task[]);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     } finally {
