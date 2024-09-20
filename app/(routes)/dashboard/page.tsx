@@ -3,13 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuth } from "@/providers/AuthProvider";
 import { Loader2 } from "lucide-react";
 
-type Task = {
+interface Task {
   id: number;
-  status: string;
-};
+  status: "Completed" | "In Progress" | "Pending";
+}
 
 export default function DashboardOverview() {
   const router = useRouter();
