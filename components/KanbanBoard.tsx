@@ -19,13 +19,13 @@ interface Task {
   title: string;
   description: string;
   status: string;
-  priority: string;
+  priority: "High" | "Medium" | "Low";
   dueDate: string | null;
 }
 
 const statuses = ["To Do", "In Progress", "Completed"];
 
-const priorityColors = {
+const priorityColors: Record<Task["priority"], string> = {
   High: "bg-red-100 text-red-800",
   Medium: "bg-yellow-100 text-yellow-800",
   Low: "bg-green-100 text-green-800",
