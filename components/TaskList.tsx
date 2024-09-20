@@ -30,12 +30,14 @@ interface Task {
   dueDate: string;
 }
 
+type SortBy = "dueDate" | "priority" | "status";
+
 export function TaskList() {
   const { deleteTask, fetchTasks } = useTasks();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const [sortBy, setSortBy] = useState("dueDate");
+  const [sortBy, setSortBy] = useState<SortBy>("dueDate");
   const [filterStatus, setFilterStatus] = useState("all");
   const [loading, setLoading] = useState(true);
 
@@ -56,7 +58,9 @@ export function TaskList() {
       if (sortBy === "dueDate") {
         return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
       }
-      return a[sortBy]?.localeCompare(b[sortBy]);
+      return (
+        a[sortBy as keyof Task]?.localeCompare(b[sortBy as keyof Task]) || 0
+      );
     });
 
   const handleCreateTask = () => {
@@ -111,7 +115,6 @@ export function TaskList() {
         </div>
       </div>
       {loading ? (
-        // Show loader while loading tasks
         <div className="flex justify-center items-center h-64">
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
@@ -161,7 +164,6 @@ export function TaskList() {
                     </div>
                   </TableCell>
 
-                  {/* Mobile buttons */}
                   <TableCell className="sm:hidden">
                     <div className="mt-2 flex flex-col gap-2">
                       <Button
