@@ -14,18 +14,20 @@ import { useTasks } from "@/hooks/useTasks";
 import { Badge } from "@/components/ui/badge";
 import { CalendarIcon, Loader2 } from "lucide-react";
 
+type Priority = "High" | "Medium" | "Low";
+
 interface Task {
   _id: string;
   title: string;
   description: string;
   status: string;
-  priority: "High" | "Medium" | "Low";
+  priority: Priority;
   dueDate: string | null;
 }
 
 const statuses = ["To Do", "In Progress", "Completed"];
 
-const priorityColors: Record<Task["priority"], string> = {
+const priorityColors: { [K in Priority]: string } = {
   High: "bg-red-100 text-red-800",
   Medium: "bg-yellow-100 text-yellow-800",
   Low: "bg-green-100 text-green-800",
@@ -35,6 +37,9 @@ const DraggableTask = ({ task }: { task: Task }) => {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: task._id,
   });
+
+  const priorityColor =
+    priorityColors[task.priority] || "bg-gray-100 text-gray-800";
 
   return (
     <div
@@ -50,7 +55,7 @@ const DraggableTask = ({ task }: { task: Task }) => {
         {task.description}
       </p>
       <div className="flex justify-between items-center text-xs">
-        <Badge variant="secondary" className={priorityColors[task.priority]}>
+        <Badge variant="secondary" className={priorityColor}>
           {task.priority}
         </Badge>
         {task.dueDate && (
