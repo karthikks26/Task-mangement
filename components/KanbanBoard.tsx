@@ -39,7 +39,7 @@ const DraggableTask = ({ task }: { task: Task }) => {
   });
 
   const priorityColor =
-    priorityColors[task.priority] || "bg-gray-100 text-gray-800";
+    priorityColors[task.priority as Priority] || "bg-gray-100 text-gray-800";
 
   return (
     <div
@@ -111,7 +111,7 @@ export function KanbanBoard() {
       setIsLoading(true);
       try {
         const tasksFromServer = await fetchTasks();
-        setTasks(tasksFromServer);
+        setTasks(tasksFromServer as Task[]);
       } catch (error) {
         console.error("Failed to fetch tasks:", error);
       } finally {
